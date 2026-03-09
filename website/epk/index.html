@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPK - BigBash Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .page-content {
+            padding: 120px 48px 80px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 16px;
+        }
+        .page-title span { color: #D4AF37; }
+        .page-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+        .epk-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 32px;
+        }
+        .epk-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #D4AF37;
+        }
+        .epk-section p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: #D4AF37;
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #F4D03F;
+        }
+        footer {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 48px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            nav { display: none; }
+            .page-content { padding: 100px 20px 60px; }
+            .epk-section { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">BigBash Music</a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/artist/">Artist</a>
+            <a href="/releases/">Releases</a>
+            <a href="/epk/" class="active">EPK</a>
+            <a href="/media/">Media</a>
+            <a href="/submissions/">Submissions</a>
+            <a href="/partners/">Partners</a>
+            <a href="/contact/">Contact</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <h1 class="page-title">Electronic Press <span>Kit</span></h1>
+        <p class="page-subtitle">Download official press materials and assets.</p>
+        
+        <div class="epk-section">
+            <h2>About BigBash Music</h2>
+            <p>BigBash Music is an independent Afrobeat record label dedicated to discovering and nurturing the next generation of African music talent. Founded with a vision to bring authentic Afrobeat sounds to the global stage, we work closely with artists to develop their unique voices and share their stories with the world.</p>
+            <p>Our roster includes rising stars like SunGodez, whose powerful vocals and inspiring storytelling have captivated audiences worldwide.</p>
+        </div>
+        
+        <div class="epk-section">
+            <h2>Download Press Kit</h2>
+            <p>Get access to high-resolution photos, artist bios, and official brand assets.</p>
+            <a href="/media/" class="download-btn">📥 Download EPK</a>
+        </div>
+        
+        <div class="epk-section">
+            <h2>Contact for Press Inquiries</h2>
+            <p>For interview requests, press features, or partnership opportunities, please contact us at <a href="mailto:press@bigbash-music.com" style="color: #D4AF37;">press@bigbash-music.com</a></p>
+        </div>
+    </div>
+
+    <footer id="footerText">© 2024 BigBash Music. All rights reserved.</footer>
+
+    <script>
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || '{}');
+            if (settings.footerText) document.getElementById('footerText').textContent = settings.footerText;
+        }
+        loadSettings();
+    </script>
+</body>
+</html>

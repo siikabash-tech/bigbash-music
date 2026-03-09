@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Submissions - BigBash Music Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        /* Header */
+        .admin-header {
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .admin-logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .admin-logo span { color: #D4AF37; }
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .admin-nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .admin-nav a:hover, .admin-nav a.active { color: #D4AF37; }
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .admin-user span {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+        .btn-logout {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-logout:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        
+        /* Main Content */
+        .admin-main {
+            padding: 40px 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+        .page-title {
+            font-size: 28px;
+        }
+        .page-stats {
+            display: flex;
+            gap: 24px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #D4AF37;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 16px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+        .tab-btn.active {
+            color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        /* Submissions List */
+        .submissions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .submission-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .submission-item:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(255,255,255,0.03);
+        }
+        .submission-item.unread {
+            border-left: 3px solid #D4AF37;
+        }
+        .submission-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .submission-info {
+            flex: 1;
+        }
+        .submission-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .submission-email {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 6px;
+        }
+        .submission-preview {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 400px;
+        }
+        .submission-meta {
+            text-align: right;
+        }
+        .submission-date {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 8px;
+        }
+        .submission-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-new {
+            background: rgba(40, 167, 69, 0.15);
+            color: #28a745;
+        }
+        .status-reviewed {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        .new-badge {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255,255,255,0.5);
+        }
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header h2 {
+            font-size: 20px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .modal-close:hover { color: #fff; }
+        .modal-body {
+            padding: 24px;
+        }
+        .detail-row {
+            margin-bottom: 20px;
+        }
+        .detail-row label {
+            display: block;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .detail-row p {
+            font-size: 15px;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .detail-row a {
+            color: #D4AF37;
+            text-decoration: none;
+        }
+        .detail-row a:hover {
+            text-decoration: underline;
+        }
+        .message-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+        }
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .btn-secondary {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            border-color: #fff;
+        }
+        .btn-primary-small {
+            padding: 10px 20px;
+            background: #D4AF37;
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary-small:hover {
+            background: #F4D03F;
+        }
+        .btn-danger {
+            padding: 10px 20px;
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            border-radius: 6px;
+            color: #dc3545;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-danger:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+            .page-stats { width: 100%; justify-content: space-around; }
+            .submission-preview { max-width: 200px; }
+            .filter-tabs { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="admin-logo">BigBash <span>Music</span></div>
+        <nav class="admin-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="artists.html">Artists</a>
+            <a href="releases.html">Releases</a>
+            <a href="media.html">Media</a>
+            <a href="submissions.html" class="active">Submissions</a>
+            <a href="messages.html">Messages</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+        <div class="admin-user">
+            <span id="userEmail">admin@bigbash-music.com</span>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="page-header">
+            <h1 class="page-title">Artist Submissions</h1>
+            <div class="page-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalCount">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="newCount">0</div>
+                    <div class="stat-label">New</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="reviewedCount">0</div>
+                    <div class="stat-label">Reviewed</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-tabs">
+            <button class="tab-btn active" onclick="filterSubmissions('all')">All Submissions</button>
+            <button class="tab-btn" onclick="filterSubmissions('new')">New</button>
+            <button class="tab-btn" onclick="filterSubmissions('reviewed')">Reviewed</button>
+        </div>
+        
+        <div class="submissions-list" id="submissionsList">
+            <!-- Submissions will be loaded here -->
+        </div>
+    </main>
+
+    <!-- Submission Detail Modal -->
+    <div class="modal-overlay" id="submissionModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Submission Details</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-danger" onclick="deleteCurrentSubmission()">Delete</button>
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-primary-small" id="markReviewedBtn" onclick="markAsReviewed()">Mark as Reviewed</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (localStorage.getItem('bigbash_admin_auth') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        // Display user email
+        const userEmail = localStorage.getItem('bigbash_admin_user') || 'admin@bigbash-music.com';
+        document.getElementById('userEmail').textContent = userEmail;
+
+        let currentFilter = 'all';
+        let currentSubmissionId = null;
+
+        // Load submissions
+        function loadSubmissions() {
+            const submissions = JSON.parse(localStorage.getItem('bigbash_submissions') || '[]');
+            const container = document.getElementById('submissionsList');
+            
+            // Update stats
+            const newSubmissions = submissions.filter(s => !s.reviewed);
+            const reviewedSubmissions = submissions.filter(s => s.reviewed);
+            document.getElementById('totalCount').textContent = submissions.length;
+            document.getElementById('newCount').textContent = newSubmissions.length;
+            document.getElementById('reviewedCount').textContent = reviewedSubmissions.length;
+            
+            // Filter
+            let filtered = submissions;
+            if (currentFilter === 'new') filtered = newSubmissions;
+            if (currentFilter === 'reviewed') filtered = reviewedSubmissions;
+            
+            // Sort by date (newest first)
+            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📨</div>
+                        <h3>No submissions yet</h3>
+                        <p>Artist submissions will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(sub => `
+                <div class="submission-item ${!sub.reviewed ? 'unread' : ''}" onclick="openSubmission('${sub.id}')">
+                    <div class="submission-avatar">🎤</div>
+                    <div class="submission-info">
+                        <div class="submission-name">
+                            ${sub.artistName || 'Unknown Artist'}
+                            ${!sub.reviewed ? '<span class="new-badge"></span>' : ''}
+                        </div>
+                        <div class="submission-email">${sub.email || 'No email'}</div>
+                        <div class="submission-preview">${sub.message || 'No message'}</div>
+                    </div>
+                    <div class="submission-meta">
+                        <div class="submission-date">${formatDate(sub.createdAt)}</div>
+                        <span class="submission-status ${sub.reviewed ? 'status-reviewed' : 'status-new'}">
+                            ${sub.reviewed ? '✓ Reviewed' : 'New'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter submissions
+        function filterSubmissions(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadSubmissions();
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Open submission detail
+        function openSubmission(id) {
+            const submissions = JSON.parse(localStorage.getItem('bigbash_submissions') || '[]');
+            const sub = submissions.find(s => s.id === id);
+            if (!sub) return;
+            
+            currentSubmissionId = id;
+            
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="detail-row">
+                    <label>Artist Name</label>
+                    <p>${sub.artistName || 'Not provided'}</p>
+                </div>
+                <div class="detail-row">
+                    <label>Email</label>
+                    <p><a href="mailto:${sub.email}">${sub.email || 'Not provided'}</a></p>
+                </div>
+                <div class="detail-row">
+                    <label>Genre</label>
+                    <p>${sub.genre || 'Not specified'}</p>
+                </div>
+                <div class="detail-row">
+                    <label>Music Link</label>
+                    <p>${sub.musicLink ? `<a href="${sub.musicLink}" target="_blank">${sub.musicLink}</a>` : 'Not provided'}</p>
+                </div>
+                <div class="detail-row">
+                    <label>Message</label>
+                    <div class="message-box">${sub.message || 'No message'}</div>
+                </div>
+                <div class="detail-row">
+                    <label>Submitted On</label>
+                    <p>${formatDate(sub.createdAt)}</p>
+                </div>
+            `;
+            
+            // Update button visibility
+            const markBtn = document.getElementById('markReviewedBtn');
+            if (sub.reviewed) {
+                markBtn.style.display = 'none';
+            } else {
+                markBtn.style.display = 'block';
+            }
+            
+            // Mark as read when opened
+            if (!sub.reviewed) {
+                sub.reviewed = true;
+                localStorage.setItem('bigbash_submissions', JSON.stringify(submissions));
+                loadSubmissions();
+            }
+            
+            document.getElementById('submissionModal').classList.add('show');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('submissionModal').classList.remove('show');
+            currentSubmissionId = null;
+        }
+
+        // Mark as reviewed
+        function markAsReviewed() {
+            if (!currentSubmissionId) return;
+            
+            const submissions = JSON.parse(localStorage.getItem('bigbash_submissions') || '[]');
+            const sub = submissions.find(s => s.id === currentSubmissionId);
+            if (sub) {
+                sub.reviewed = true;
+                localStorage.setItem('bigbash_submissions', JSON.stringify(submissions));
+                loadSubmissions();
+                closeModal();
+            }
+        }
+
+        // Delete current submission
+        function deleteCurrentSubmission() {
+            if (!currentSubmissionId) return;
+            
+            if (confirm('Are you sure you want to delete this submission?')) {
+                const submissions = JSON.parse(localStorage.getItem('bigbash_submissions') || '[]');
+                const filtered = submissions.filter(s => s.id !== currentSubmissionId);
+                localStorage.setItem('bigbash_submissions', JSON.stringify(filtered));
+                loadSubmissions();
+                closeModal();
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('bigbash_admin_auth');
+            localStorage.removeItem('bigbash_admin_user');
+            window.location.href = 'login.html';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('submissionModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize
+        loadSubmissions();
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - BigBash Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .page-content {
+            padding: 120px 48px 80px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .page-title span { color: #D4AF37; }
+        .page-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .contact-item {
+            text-align: center;
+        }
+        .contact-item .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .contact-item p {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+        .form-container {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #D4AF37;
+            background: rgba(212,175,55,0.05);
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: #D4AF37;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background: #F4D03F;
+        }
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 8px;
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .success-message.show { display: block; }
+        footer {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 48px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            nav { display: none; }
+            .page-content { padding: 100px 20px 60px; }
+            .form-container { padding: 24px; }
+            .contact-info { flex-direction: column; gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">BigBash Music</a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/artist/">Artist</a>
+            <a href="/releases/">Releases</a>
+            <a href="/epk/">EPK</a>
+            <a href="/media/">Media</a>
+            <a href="/submissions/">Submissions</a>
+            <a href="/partners/">Partners</a>
+            <a href="/contact/" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <h1 class="page-title">Get In <span>Touch</span></h1>
+        <p class="page-subtitle">Have a question? We'd love to hear from you.</p>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="icon">📧</div>
+                <p id="contactEmail">contact@bigbash-music.com</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">📞</div>
+                <p id="contactPhone">+44 800 274 0074</p>
+            </div>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Thank you! Your message has been sent. We'll get back to you soon.
+        </div>
+        
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your Name *</label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" placeholder="How can we help?">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" required placeholder="Your message..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="footerText">© 2024 BigBash Music. All rights reserved.</footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const message = {
+                id: Date.now().toString(),
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                read: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            const messages = JSON.parse(localStorage.getItem('bigbash_messages') || '[]');
+            messages.push(message);
+            localStorage.setItem('bigbash_messages', JSON.stringify(messages));
+            
+            document.getElementById('successMessage').classList.add('show');
+            document.getElementById('contactForm').reset();
+            
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.remove('show');
+            }, 5000);
+        });
+
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || '{}');
+            if (settings.contactEmail) document.getElementById('contactEmail').textContent = settings.contactEmail;
+            if (settings.contactPhone) document.getElementById('contactPhone').textContent = settings.contactPhone;
+            if (settings.footerText) document.getElementById('footerText').textContent = settings.footerText;
+        }
+
+        loadSettings();
+    </script>
+</body>
+</html>

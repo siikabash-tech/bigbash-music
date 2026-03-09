@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Releases - BigBash Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .page-content {
+            padding: 120px 48px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 16px;
+        }
+        .page-title span { color: #D4AF37; }
+        .page-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
+        .release-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .release-card:hover {
+            border-color: rgba(212,175,55,0.3);
+            transform: translateY(-8px);
+        }
+        .release-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+        .release-info {
+            padding: 20px;
+        }
+        .release-info h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .release-info .artist {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .release-meta {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .release-meta span {
+            padding: 4px 10px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 4px;
+            font-size: 11px;
+            color: #D4AF37;
+            text-transform: uppercase;
+        }
+        .platform-links {
+            display: flex;
+            gap: 8px;
+        }
+        .platform-links a {
+            flex: 1;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .platform-links a:hover {
+            background: #D4AF37;
+            color: #000;
+        }
+        footer {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 48px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            nav { display: none; }
+            .page-content { padding: 100px 20px 60px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">BigBash Music</a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/artist/">Artist</a>
+            <a href="/releases/" class="active">Releases</a>
+            <a href="/epk/">EPK</a>
+            <a href="/media/">Media</a>
+            <a href="/submissions/">Submissions</a>
+            <a href="/partners/">Partners</a>
+            <a href="/contact/">Contact</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <h1 class="page-title">Latest <span>Releases</span></h1>
+        <p class="page-subtitle">Stream the newest music from BigBash Music artists.</p>
+        
+        <div class="releases-grid" id="releasesGrid">
+            <!-- Releases loaded dynamically -->
+        </div>
+    </div>
+
+    <footer id="footerText">© 2024 BigBash Music. All rights reserved.</footer>
+
+    <script>
+        function loadReleases() {
+            const releases = JSON.parse(localStorage.getItem('bigbash_releases') || '[]');
+            const publishedReleases = releases.filter(r => r.published);
+            const container = document.getElementById('releasesGrid');
+            
+            if (publishedReleases.length === 0) {
+                container.innerHTML = `
+                    <div class="release-card">
+                        <img src="/images/album-reborn.jpg" alt="Reborn">
+                        <div class="release-info">
+                            <h3>Reborn</h3>
+                            <p class="artist">SunGodez</p>
+                            <div class="release-meta"><span>Album</span><span>2024</span></div>
+                            <div class="platform-links">
+                                <a href="#">Spotify</a>
+                                <a href="#">Apple</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = publishedReleases.map(release => `
+                <div class="release-card">
+                    <img src="${release.artwork || '/images/album-reborn.jpg'}" alt="${release.title}" onerror="this.src='/images/album-reborn.jpg'">
+                    <div class="release-info">
+                        <h3>${release.title}</h3>
+                        <p class="artist">${release.artist}</p>
+                        <div class="release-meta">
+                            <span>${release.type || 'Single'}</span>
+                            ${release.date ? `<span>${new Date(release.date).getFullYear()}</span>` : ''}
+                        </div>
+                        <div class="platform-links">
+                            ${release.spotify ? `<a href="${release.spotify}">Spotify</a>` : ''}
+                            ${release.apple ? `<a href="${release.apple}">Apple</a>` : ''}
+                            ${release.youtube ? `<a href="${release.youtube}">YouTube</a>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || '{}');
+            if (settings.footerText) document.getElementById('footerText').textContent = settings.footerText;
+        }
+
+        loadSettings();
+        loadReleases();
+    </script>
+</body>
+</html>

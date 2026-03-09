@@ -1,0 +1,647 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Artist | SunGodez | BigBash Music</title>
+    <style>
+/* Cinematic Page Transition */
+body {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+body.page-loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+body.page-exit {
+    opacity: 0;
+    transform: scale(0.98);
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; line-height: 1.6; }
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
+        .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo { font-size: 24px; font-weight: 700; color: #D4AF37; text-decoration: none; }
+        nav { display: flex; gap: 28px; }
+        nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .phone { color: #D4AF37; text-decoration: none; font-size: 14px; }
+        main { padding: 120px 24px 80px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .back { color: rgba(255,255,255,0.6); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 40px; }
+        .back:hover { color: #D4AF37; }
+        .page-title { text-align: center; margin-bottom: 60px; }
+        .page-title h1 { font-size: clamp(40px, 6vw, 64px); }
+        .page-title h1 span { color: #D4AF37; }
+        .artist-grid { display: grid; grid-template-columns: 2fr 3fr; gap: 60px; align-items: start; }
+        .artist-image { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .artist-image img { width: 100%; height: auto; display: block; }
+        .artist-info h2 { font-size: 32px; margin-bottom: 8px; }
+        .artist-info .role { color: #D4AF37; font-size: 18px; margin-bottom: 24px; }
+        .artist-info p { color: rgba(255,255,255,0.7); margin-bottom: 16px; line-height: 1.8; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin: 32px 0; }
+        .stat { text-align: center; }
+        .stat-icon { font-size: 24px; margin-bottom: 8px; }
+        .stat-value { font-size: 28px; font-weight: 700; }
+        .stat-label { color: rgba(255,255,255,0.5); font-size: 14px; }
+        .btn { display: inline-flex; align-items: center; gap: 12px; background: #D4AF37; color: #000; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .btn:hover { background: #F4D03F; transform: translateY(-2px); }
+        footer { padding: 40px 24px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.3); }
+        @media (max-width: 768px) { nav { display: none; } .artist-grid { grid-template-columns: 1fr; } }
+    </style>
+<script src="https://www.kimi.com/sdk-seed.js" defer=""></script></head>
+<body>
+<!-- Loading Screen -->
+<div id="loading-screen">
+    <div class="loading-content">
+        <div class="loading-logo">BigBash <span>Music</span></div>
+        <div class="loading-indicator">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+    </div>
+</div>
+<style>
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.loading-logo span {
+    color: #D4AF37;
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    background: #D4AF37;
+    border-radius: 50%;
+    animation: loadingPulse 1s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+
+
+<div id="loading-screen-OLD">
+    <div class="loading-content">
+        <div class="loading-logo">BigBash <span>Music</span></div>
+        <div class="loading-indicator">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+    </div>
+</div>
+<style>
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.loading-logo span {
+    color: #D4AF37;
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    background: #D4AF37;
+    border-radius: 50%;
+    animation: loadingPulse 1s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">BigBash</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/artist/index.html" class="active">Artist</a>
+                <a href="/releases/index.html">Releases</a>
+                <a href="/epk/index.html">EPK</a>
+                <a href="/media/index.html">Media</a>
+                <a href="/submissions/index.html">Submissions</a>
+                <a href="/partners/index.html">Partners</a>
+                <a href="/contact/index.html">Contact</a>
+            </nav>
+            <a href="tel:+448002740074" class="phone">📞 +44 800 274 0074</a>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <a href="/" class="back">← Back to Home</a>
+            <div class="page-title">
+                <h1>Sun<span>Godez</span></h1>
+            </div>
+            <div class="artist-grid">
+                <div class="artist-image">
+                    <img src="/images/artist-sungodez.jpg" alt="SunGodez"/>
+                </div>
+                <div class="artist-info">
+                    <h2>SunGodez</h2>
+                    <p class="role">BigBash Music Recording Artist</p>
+                    <p>SunGodez is a rising Afrobeat artist signed to BigBash Music. Known for powerful vocals and inspiring storytelling, her music blends Afrobeat rhythms with soulful melodies and African cultural influences.</p>
+                    <p>Her debut album &#34;Reborn&#34; showcases her unique sound that fuses traditional African elements with contemporary production. Working closely with executive producer Suleman Mohammed, SunGodez has crafted a sound that speaks to audiences across continents.</p>
+                    <p>With tracks like &#34;My Boat (No Sinking)&#34; and &#34;Signed By Destiny,&#34; SunGodez demonstrates her ability to blend infectious rhythms with meaningful lyrics that inspire and uplift listeners.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-icon">🎵</div>
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">Album</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-value">10+</div>
+                            <div class="stat-label">Tracks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon">🌍</div>
+                            <div class="stat-value">Global</div>
+                            <div class="stat-label">Reach</div>
+                        </div>
+                    </div>
+                    <a href="/releases/index.html" class="btn">Listen to SunGodez</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Page Transition &amp; Loading Screen Script -->
+<script>
+(function() {
+    // Hide loading screen when page is fully loaded
+    function hideLoader() {
+        var loader = document.getElementById('loading-screen');
+        if (loader) {
+            // Show for 0.8s then fade out
+            setTimeout(function() {
+                loader.classList.add('fade-out');
+                // Add page loaded class for transition
+                setTimeout(function() {
+                    document.body.classList.add('page-loaded');
+                }, 100);
+            }, 800);
+        }
+    }
+
+    // Run when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', hideLoader);
+    } else {
+        hideLoader();
+    }
+
+    // Handle internal link clicks
+    document.addEventListener('click', function(e) {
+        var link = e.target.closest('a');
+        if (!link) return;
+
+        var href = link.getAttribute('href');
+
+        // Skip external links, anchors, and special links
+        if (!href || 
+            href.startsWith('http') || 
+            href.startsWith('//') || 
+            href.startsWith('#') || 
+            href.startsWith('mailto:') || 
+            href.startsWith('tel:') ||
+            href.endsWith('.pdf')) {
+            return;
+        }
+
+        // Prevent default navigation
+        e.preventDefault();
+
+        // Add exit animation
+        document.body.classList.remove('page-loaded');
+        document.body.classList.add('page-exit');
+
+        // Navigate after animation completes
+        setTimeout(function() {
+            window.location.href = href;
+        }, 500);
+    });
+})();
+</script>
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <!-- Column 1: Brand -->
+            <div class="footer-column brand-column">
+                <div class="footer-brand">
+                    <h3>BigBash <span>Music</span></h3>
+                    <p class="tagline">Where Legends Rise</p>
+                </div>
+                <p class="footer-description">
+                    BigBash Music is an independent music label dedicated to Afrobeat, Afro-fusion, and global African sound. The label focuses on artist development, powerful storytelling, and delivering world-class music productions.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="TikTok">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Spotify">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M8 11.5c3.5-1.5 6.5-1.5 10 0"></path>
+                            <path d="M8 15c3-1 6-1 9 0"></path>
+                            <path d="M9 8c2.5-1 5.5-1 8 0"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/artist/index.html">Artist</a></li>
+                    <li><a href="/releases/index.html">Releases</a></li>
+                    <li><a href="/epk/index.html">EPK</a></li>
+                    <li><a href="/media/index.html">Media</a></li>
+                    <li><a href="/submissions/index.html">Submissions</a></li>
+                    <li><a href="/partners/index.html">Partners</a></li>
+                    <li><a href="/contact/index.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Label Services -->
+            <div class="footer-column">
+                <h4>Label Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Artist Development</a></li>
+                    <li><a href="#">Music Production</a></li>
+                    <li><a href="#">Release Strategy</a></li>
+                    <li><a href="#">Press & Media</a></li>
+                    <li><a href="#">Distribution Support</a></li>
+                    <li><a href="#">Creative Direction</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Contact -->
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <ul class="footer-contact">
+                    <li>
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:admin@bigbash-music.com">admin@bigbash-music.com</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Phone</span>
+                        <a href="tel:+448002740074">+44 800 274 0074</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Website</span>
+                        <a href="https://bigbash-music.com">bigbash-music.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Footer Bar -->
+    <div class="footer-bottom">
+        <div class="footer-bottom-container">
+            <p class="copyright">© BigBash Music. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Licensing</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+/* Footer Styles */
+.site-footer {
+    background: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 60px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 50px;
+}
+
+.footer-column h4 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Brand Column */
+.footer-brand h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.footer-brand h3 span {
+    color: #D4AF37;
+}
+
+.tagline {
+    color: #D4AF37;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.footer-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+/* Social Links */
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.social-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.social-icon:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #D4AF37;
+    color: #D4AF37;
+}
+
+/* Footer Links */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #D4AF37;
+}
+
+/* Contact */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    margin-bottom: 16px;
+}
+
+.contact-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.footer-contact a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #D4AF37;
+}
+
+/* Bottom Footer Bar */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+}
+
+.footer-bottom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    margin: 0;
+}
+
+.legal-links {
+    display: flex;
+    gap: 24px;
+}
+
+.legal-links a {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s ease;
+}
+
+.legal-links a:hover {
+    color: #D4AF37;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 30px;
+    }
+
+    .brand-column {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .footer-bottom-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .legal-links {
+        gap: 16px;
+    }
+}
+</style>
+</body></html>

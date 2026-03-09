@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners - BigBash Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #D4AF37;
+            text-decoration: none;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .page-content {
+            padding: 120px 48px 80px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .page-title {
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 16px;
+        }
+        .page-title span { color: #D4AF37; }
+        .page-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+        .partner-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 40px 24px;
+            transition: all 0.3s ease;
+        }
+        .partner-card:hover {
+            border-color: rgba(212,175,55,0.3);
+        }
+        .partner-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .partner-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .partner-card p {
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+        .cta-box {
+            background: rgba(212,175,55,0.05);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 48px;
+        }
+        .cta-box h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        .cta-box p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: #D4AF37;
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #F4D03F;
+        }
+        footer {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 48px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            nav { display: none; }
+            .page-content { padding: 100px 20px 60px; }
+            .cta-box { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">BigBash Music</a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/artist/">Artist</a>
+            <a href="/releases/">Releases</a>
+            <a href="/epk/">EPK</a>
+            <a href="/media/">Media</a>
+            <a href="/submissions/">Submissions</a>
+            <a href="/partners/" class="active">Partners</a>
+            <a href="/contact/">Contact</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <h1 class="page-title">Our <span>Partners</span></h1>
+        <p class="page-subtitle">We collaborate with industry leaders to bring the best to our artists.</p>
+        
+        <div class="partners-grid">
+            <div class="partner-card">
+                <div class="icon">🎵</div>
+                <h3>Spotify</h3>
+                <p>Streaming Partner</p>
+            </div>
+            <div class="partner-card">
+                <div class="icon">🍎</div>
+                <h3>Apple Music</h3>
+                <p>Distribution Partner</p>
+            </div>
+            <div class="partner-card">
+                <div class="icon">▶️</div>
+                <h3>YouTube Music</h3>
+                <p>Video Partner</p>
+            </div>
+            <div class="partner-card">
+                <div class="icon">📻</div>
+                <h3>SoundCloud</h3>
+                <p>Audio Partner</p>
+            </div>
+        </div>
+        
+        <div class="cta-box">
+            <h2>Become a Partner</h2>
+            <p>Interested in partnering with BigBash Music? Let's create something amazing together.</p>
+            <a href="/contact/" class="btn">Get in Touch</a>
+        </div>
+    </div>
+
+    <footer id="footerText">© 2024 BigBash Music. All rights reserved.</footer>
+
+    <script>
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || '{}');
+            if (settings.footerText) document.getElementById('footerText').textContent = settings.footerText;
+        }
+        loadSettings();
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Settings - BigBash Music Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        /* Header */
+        .admin-header {
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .admin-logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .admin-logo span { color: #D4AF37; }
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .admin-nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .admin-nav a:hover, .admin-nav a.active { color: #D4AF37; }
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .admin-user span {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+        .btn-logout {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-logout:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        
+        /* Main Content */
+        .admin-main {
+            padding: 40px 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 32px;
+        }
+        
+        /* Settings Sections */
+        .settings-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .settings-section h2 {
+            font-size: 18px;
+            margin-bottom: 24px;
+            color: #D4AF37;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-hint {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 6px;
+        }
+        
+        /* Save Button */
+        .save-section {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 16px;
+        }
+        .btn-secondary {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            border-color: #fff;
+        }
+        .btn-save {
+            padding: 12px 32px;
+            background: #D4AF37;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-save:hover {
+            background: #F4D03F;
+            transform: translateY(-2px);
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 16px 20px;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 8px;
+            color: #28a745;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .admin-header { flex-wrap: wrap; gap: 16px; }
+            .admin-nav { order: 3; width: 100%; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="admin-logo">BigBash <span>Music</span></div>
+        <nav class="admin-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="artists.html">Artists</a>
+            <a href="releases.html">Releases</a>
+            <a href="media.html">Media</a>
+            <a href="submissions.html">Submissions</a>
+            <a href="messages.html">Messages</a>
+            <a href="settings.html" class="active">Settings</a>
+        </nav>
+        <div class="admin-user">
+            <span id="userEmail">admin@bigbash-music.com</span>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <h1 class="page-title">Site Settings</h1>
+        <p class="page-subtitle">Manage your website configuration and content.</p>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Settings saved successfully!
+        </div>
+        
+        <div class="settings-section">
+            <h2>🌐 General Settings</h2>
+            <div class="form-group">
+                <label for="siteTitle">Site Title</label>
+                <input type="text" id="siteTitle" placeholder="BigBash Music">
+            </div>
+            <div class="form-group">
+                <label for="siteTagline">Site Tagline</label>
+                <input type="text" id="siteTagline" placeholder="Where Legends Rise">
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2>📞 Contact Information</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email</label>
+                    <input type="email" id="contactEmail" placeholder="contact@bigbash-music.com">
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Contact Phone</label>
+                    <input type="text" id="contactPhone" placeholder="+44 800 274 0074">
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2>🔗 Social Media Links</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="instagram">Instagram</label>
+                    <input type="text" id="instagram" placeholder="https://instagram.com/...">
+                </div>
+                <div class="form-group">
+                    <label for="twitter">Twitter / X</label>
+                    <input type="text" id="twitter" placeholder="https://twitter.com/...">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="youtube">YouTube</label>
+                    <input type="text" id="youtube" placeholder="https://youtube.com/...">
+                </div>
+                <div class="form-group">
+                    <label for="spotify">Spotify</label>
+                    <input type="text" id="spotify" placeholder="https://open.spotify.com/...">
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2>📄 Footer & SEO</h2>
+            <div class="form-group">
+                <label for="footerText">Footer Copyright Text</label>
+                <input type="text" id="footerText" placeholder="© 2024 BigBash Music. All rights reserved.">
+                <p class="form-hint">This text appears in the footer of all pages.</p>
+            </div>
+            <div class="form-group">
+                <label for="seoDescription">SEO Description</label>
+                <textarea id="seoDescription" placeholder="BigBash Music - Independent Afrobeat record label..."></textarea>
+                <p class="form-hint">Brief description for search engines (150-160 characters recommended).</p>
+            </div>
+        </div>
+        
+        <div class="save-section">
+            <button class="btn-secondary" onclick="resetSettings()">Reset to Defaults</button>
+            <button class="btn-save" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </main>
+
+    <script>
+        // Check authentication
+        if (localStorage.getItem('bigbash_admin_auth') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        // Display user email
+        const userEmail = localStorage.getItem('bigbash_admin_user') || 'admin@bigbash-music.com';
+        document.getElementById('userEmail').textContent = userEmail;
+
+        // Default settings
+        const defaultSettings = {
+            siteTitle: 'BigBash Music',
+            siteTagline: 'Where Legends Rise',
+            contactEmail: 'contact@bigbash-music.com',
+            contactPhone: '+44 800 274 0074',
+            footerText: '© 2024 BigBash Music. All rights reserved.',
+            instagram: '',
+            twitter: '',
+            youtube: '',
+            spotify: '',
+            seoDescription: 'BigBash Music - Independent Afrobeat record label introducing SunGodez.'
+        };
+
+        // Load settings
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || JSON.stringify(defaultSettings));
+            
+            document.getElementById('siteTitle').value = settings.siteTitle || '';
+            document.getElementById('siteTagline').value = settings.siteTagline || '';
+            document.getElementById('contactEmail').value = settings.contactEmail || '';
+            document.getElementById('contactPhone').value = settings.contactPhone || '';
+            document.getElementById('footerText').value = settings.footerText || '';
+            document.getElementById('instagram').value = settings.instagram || '';
+            document.getElementById('twitter').value = settings.twitter || '';
+            document.getElementById('youtube').value = settings.youtube || '';
+            document.getElementById('spotify').value = settings.spotify || '';
+            document.getElementById('seoDescription').value = settings.seoDescription || '';
+        }
+
+        // Save settings
+        function saveSettings() {
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value.trim(),
+                siteTagline: document.getElementById('siteTagline').value.trim(),
+                contactEmail: document.getElementById('contactEmail').value.trim(),
+                contactPhone: document.getElementById('contactPhone').value.trim(),
+                footerText: document.getElementById('footerText').value.trim(),
+                instagram: document.getElementById('instagram').value.trim(),
+                twitter: document.getElementById('twitter').value.trim(),
+                youtube: document.getElementById('youtube').value.trim(),
+                spotify: document.getElementById('spotify').value.trim(),
+                seoDescription: document.getElementById('seoDescription').value.trim(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('bigbash_settings', JSON.stringify(settings));
+            localStorage.setItem('bigbash_last_update', new Date().toISOString());
+            
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            setTimeout(() => successMsg.classList.remove('show'), 3000);
+        }
+
+        // Reset settings
+        function resetSettings() {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                localStorage.setItem('bigbash_settings', JSON.stringify(defaultSettings));
+                loadSettings();
+                
+                const successMsg = document.getElementById('successMessage');
+                successMsg.textContent = '✅ Settings reset to defaults!';
+                successMsg.classList.add('show');
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                    successMsg.textContent = '✅ Settings saved successfully!';
+                }, 3000);
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('bigbash_admin_auth');
+            localStorage.removeItem('bigbash_admin_user');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize
+        loadSettings();
+    </script>
+</body>
+</html>
