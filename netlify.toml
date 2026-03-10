@@ -1,19 +1,7 @@
-# Netlify Build Configuration Override
-# This forces Netlify to run a clean build with no UI plugins
 
 [build]
   publish = "website"
-  command = ""
 
-# Disable all UI-installed plugins
-[[plugins]]
-  package = 
-
-# Explicitly block problematic plugins
 [build.environment]
   NETLIFY_DISABLE_PLUGIN_NETLIFY_PLUGIN_IMAGE_OPTIM = "true"
   NETLIFY_DISABLE_PLUGIN_NETLIFY_PLUGIN_IS_WEBSITE_VULNERABLE = "true"
-
-# Force clean build
-  NETLIFY_USE_YARN = "false"
-  NETLIFY_BUILD_DEBUG = "true"
