@@ -3,455 +3,1519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BigBash Music - Where Legends Rise</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>BigBash Music – Where Legends Rise</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Cinematic Page Transition */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
+        body.page-loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+        body.page-exit {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; line-height: 1.6; overflow-x: hidden; }
         
         /* Header */
-        header {
-            position: fixed;
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
+        .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo { font-size: 24px; font-weight: 700; color: #D4AF37; text-decoration: none; }
+        nav { display: flex; gap: 28px; }
+        nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: #D4AF37; }
+        .phone { color: #D4AF37; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        
+        /* Hero - Enhanced with cinematic motion */
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .hero-bg { 
+            position: absolute; 
+            inset: -20px; 
+            background: url('images/hero-bg.jpg') center/cover; 
+            animation: heroKenBurns 20s ease-in-out infinite alternate;
+        }
+        @keyframes heroKenBurns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.08) translate(-10px, -5px); }
+        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%); }
+        .hero-content { position: relative; z-index: 10; text-align: center; padding: 0 24px; }
+        .hero h1 { 
+            font-size: clamp(48px, 10vw, 96px); 
+            font-weight: 900; 
+            margin-bottom: 16px; 
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        }
+        .hero h1 span { color: #D4AF37; }
+        .hero p { 
+            font-size: clamp(20px, 4vw, 32px); 
+            color: #D4AF37; 
+            margin-bottom: 24px; 
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+        .hero .desc { 
+            font-size: 18px; 
+            color: rgba(255,255,255,0.7); 
+            max-width: 500px; 
+            margin: 0 auto 40px; 
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+        }
+        @keyframes heroFadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 12px; 
+            background: #D4AF37; 
+            color: #000; 
+            padding: 16px 32px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 16px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 20px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: #D4AF37;
-            text-decoration: none;
-        }
-        nav {
-            display: flex;
-            gap: 32px;
-        }
-        nav a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover { color: #D4AF37; }
-        .header-contact {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #D4AF37;
-            font-size: 14px;
+        .btn:hover::before { left: 100%; }
+        .btn:hover { 
+            background: #F4D03F; 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
         }
         
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        /* Sections */
+        section { padding: 80px 24px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 60px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .section-title.visible { opacity: 1; transform: translateY(0); }
+        .section-title span { color: #D4AF37; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+        .section-title h2 { font-size: clamp(32px, 5vw, 48px); margin-top: 16px; }
+        .section-title p { color: rgba(255,255,255,0.6); max-width: 700px; margin: 16px auto 0; }
+        
+        /* Instruments - Enhanced hover effects */
+        .instruments { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+        .instrument { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 20px; 
+            padding: 40px 32px; 
+            text-align: center; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            padding: 120px 20px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
         }
-        .hero-bg {
+        .instrument.visible { opacity: 1; transform: translateY(0); }
+        .instrument::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .instrument:hover { 
+            border-color: rgba(212, 175, 55, 0.5); 
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.15), 0 0 30px rgba(212, 175, 55, 0.1);
+            background: rgba(255,255,255,0.05);
+        }
+        .instrument:hover::before { opacity: 1; }
+        .instrument-icon { 
+            width: 90px; height: 90px; 
+            background: rgba(212,175,55,0.08); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 20px; 
+            font-size: 36px; color: #D4AF37;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; z-index: 1;
+        }
+        .instrument:hover .instrument-icon {
+            transform: scale(1.1);
+            background: rgba(212,175,55,0.15);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+        .instrument h3 { font-size: 20px; margin-bottom: 8px; position: relative; z-index: 1; }
+        .instrument p { color: #D4AF37; font-size: 14px; position: relative; z-index: 1; }
+        
+        /* Artist Section */
+        .artist-section { background: linear-gradient(to bottom, #000, #0a0500); }
+        .artist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .artist-image { 
+            border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0; transform: translateX(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .artist-image.visible { opacity: 1; transform: translateX(0); }
+        .artist-image img { width: 100%; height: auto; display: block; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .artist-image:hover img { transform: scale(1.05); }
+        .artist-content { opacity: 0; transform: translateX(-30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+        .artist-content.visible { opacity: 1; transform: translateX(0); }
+        .artist-content span { color: #D4AF37; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+        .artist-content h2 { font-size: clamp(36px, 5vw, 56px); margin: 16px 0 24px; }
+        .artist-content h2 span { color: #D4AF37; }
+        .artist-content p { color: rgba(255,255,255,0.7); margin-bottom: 16px; line-height: 1.8; }
+        .artist-content a { color: #D4AF37; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .artist-content a:hover { color: #F4D03F; gap: 12px; }
+        
+        /* CTA Section */
+        .cta { text-align: center; }
+        .cta h2 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 16px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .cta h2.visible { opacity: 1; transform: translateY(0); }
+        .cta h2 span { color: #D4AF37; }
+        .cta p { color: rgba(255,255,255,0.6); margin-bottom: 32px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s; }
+        .cta p.visible { opacity: 1; transform: translateY(0); }
+        .platforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+        .platforms.visible { opacity: 1; transform: translateY(0); }
+        .platform { 
+            padding: 14px 28px; background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; 
+            color: rgba(255,255,255,0.8); text-decoration: none; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .platform::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .platform:hover { background: rgba(212,175,55,0.1); border-color: #D4AF37; color: #D4AF37; transform: translateY(-2px); }
+        .platform:hover::before { opacity: 1; }
+        
+        /* Hero Animated Gradient Overlay */
+        .hero-gradient {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 50%);
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(180, 140, 40, 0.05) 0%, transparent 60%);
+            animation: heroGradientMove 15s ease-in-out infinite alternate;
+            z-index: 2;
+            pointer-events: none;
         }
-        .hero-content {
-            position: relative;
+        @keyframes heroGradientMove {
+            0% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1.1) rotate(3deg); }
+        }
+        .hero-light-rays {
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg at 50% 50%, 
+                transparent 0deg, 
+                rgba(212, 175, 55, 0.03) 30deg, 
+                transparent 60deg,
+                rgba(212, 175, 55, 0.02) 90deg,
+                transparent 120deg,
+                rgba(212, 175, 55, 0.03) 150deg,
+                transparent 180deg,
+                rgba(212, 175, 55, 0.02) 210deg,
+                transparent 240deg,
+                rgba(212, 175, 55, 0.03) 270deg,
+                transparent 300deg,
+                rgba(212, 175, 55, 0.02) 330deg,
+                transparent 360deg
+            );
+            animation: lightRaysRotate 30s linear infinite;
             z-index: 1;
-            max-width: 800px;
+            pointer-events: none;
         }
+        @keyframes lightRaysRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Enhanced Hero Text Animation */
         .hero h1 {
             font-size: clamp(48px, 10vw, 96px);
             font-weight: 900;
             margin-bottom: 16px;
-            line-height: 1;
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            animation: heroTextReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            text-shadow: 0 0 80px rgba(212, 175, 55, 0.3);
         }
-        .hero h1 span { color: #D4AF37; }
+        @keyframes heroTextReveal {
+            0% { opacity: 0; transform: translateY(60px) scale(0.95); filter: blur(10px); }
+            50% { filter: blur(2px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
         .hero p {
             font-size: clamp(20px, 4vw, 32px);
             color: #D4AF37;
             margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
         }
         .hero .desc {
             font-size: 18px;
             color: rgba(255,255,255,0.7);
             max-width: 500px;
             margin: 0 auto 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
         }
-        .btn {
+        
+        /* Featured Artists Carousel */
+        .featured-artists { background: linear-gradient(to bottom, #000, #050300); overflow: hidden; }
+        .artists-carousel {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 20px 0 40px;
+            margin: 0 -24px;
+            padding-left: 24px;
+            padding-right: 24px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .artists-carousel::-webkit-scrollbar { display: none; }
+        .artist-carousel-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .artist-carousel-card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .artist-carousel-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.15);
+        }
+        .artist-carousel-image {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+        .artist-carousel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .artist-carousel-card:hover .artist-carousel-image img {
+            transform: scale(1.1);
+        }
+        .artist-carousel-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+        }
+        .artist-carousel-info {
+            padding: 24px;
+            position: relative;
+        }
+        .artist-carousel-info h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .artist-carousel-info .tagline {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 16px;
+        }
+        .artist-carousel-info .btn-small {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: #D4AF37;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .artist-carousel-info .btn-small:hover {
+            background: #D4AF37;
+            color: #000;
+        }
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active {
+            background: #D4AF37;
+            transform: scale(1.2);
+        }
+        .carousel-dot:hover {
+            background: rgba(212, 175, 55, 0.6);
+        }
+        
+        /* Music Preview Player */
+        .music-preview-player {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+        .release-card:hover .music-preview-player {
+            transform: translateY(0);
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .play-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #D4AF37;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .play-btn:hover {
+            background: #F4D03F;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .play-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #000;
+            margin-left: 2px;
+        }
+        .play-btn.playing svg {
+            margin-left: 0;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #D4AF37, #F4D03F);
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+        .time-display {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            min-width: 70px;
+            text-align: right;
+        }
+        
+        /* Enhanced Release Card Hover Effects */
+        .release-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .release-card.visible { opacity: 1; transform: translateY(0); }
+        .release-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.4) 0%, transparent 50%, rgba(212, 175, 55, 0.2) 100%);
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+        }
+        .release-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 50px rgba(212, 175, 55, 0.2);
+        }
+        .release-card:hover::before {
+            opacity: 1;
+        }
+        .release-card-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        .release-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .release-card:hover .release-card-image img { transform: scale(1.08); }
+        .release-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .release-card:hover .release-card-overlay { opacity: 1; }
+        .preview-play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.95);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .release-card:hover .preview-play-btn {
+            transform: scale(1);
+        }
+        .preview-play-btn:hover {
+            background: #F4D03F;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+        }
+        .preview-play-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            margin-left: 3px;
+        }
+        
+        /* Smooth Scroll Animation Base */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Featured Release Section */
+        .featured-release { background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(0,0,0,0) 50%); }
+        .featured-release-card { 
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 60px; 
+            align-items: center;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 48px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .featured-release-card.visible { opacity: 1; transform: translateY(0); }
+        .featured-release-artwork { 
+            position: relative; 
+            border-radius: 16px; 
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .featured-release-artwork:hover { 
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px rgba(212, 175, 55, 0.2);
+        }
+        .featured-release-artwork img { width: 100%; height: auto; display: block; }
+        .featured-release-artwork::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .featured-release-content h3 { 
+            font-size: 14px; 
+            color: #D4AF37; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 12px; 
+        }
+        .featured-release-content h2 { 
+            font-size: clamp(28px, 4vw, 42px); 
+            margin-bottom: 8px; 
+        }
+        .featured-release-content .artist-name { 
+            font-size: 20px; 
+            color: rgba(255,255,255,0.6); 
+            margin-bottom: 20px; 
+        }
+        .featured-release-content .description { 
+            color: rgba(255,255,255,0.7); 
+            line-height: 1.8; 
+            margin-bottom: 32px;
+            max-width: 480px;
+        }
+        .featured-release-buttons { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+        .btn-primary { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: #D4AF37; 
+            color: #000; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover { 
+            background: #F4D03F; 
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        .btn-secondary { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: transparent; 
+            color: #fff; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-secondary:hover { 
+            border-color: #D4AF37;
+            color: #D4AF37;
+            transform: translateY(-3px);
+        }
+        .platform-links { display: flex; gap: 12px; flex-wrap: wrap; }
+        .platform-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 10px 18px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 8px; 
+            color: rgba(255,255,255,0.7); 
+            text-decoration: none; 
+            font-size: 13px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .platform-link:hover { 
+            background: rgba(212,175,55,0.1); 
+            border-color: #D4AF37; 
+            color: #D4AF37;
+            transform: translateY(-2px);
+        }
+        .platform-link svg { width: 16px; height: 16px; }
+        
+        /* Artist Spotlight Section */
+        .artist-spotlight { background: linear-gradient(to bottom, #0a0500, #000); }
+        .artist-spotlight-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .artist-spotlight-card.visible { opacity: 1; transform: translateY(0); }
+        .artist-spotlight-image {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .artist-spotlight-image img { 
+            width: 100%; 
+            height: auto; 
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .artist-spotlight-image:hover img { transform: scale(1.05); }
+        .artist-spotlight-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .artist-spotlight-content h3 { 
+            font-size: 14px; 
+            color: #D4AF37; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 16px; 
+        }
+        .artist-spotlight-content h2 { 
+            font-size: clamp(32px, 5vw, 52px); 
+            margin-bottom: 8px;
+        }
+        .artist-spotlight-content .role { 
+            font-size: 18px; 
+            color: rgba(255,255,255,0.5); 
+            margin-bottom: 24px; 
+        }
+        .artist-spotlight-content .bio { 
+            color: rgba(255,255,255,0.7); 
+            line-height: 1.9; 
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+        .artist-spotlight-content .bio p { margin-bottom: 16px; }
+        
+        /* Latest Releases Grid */
+        .latest-releases { background: #000; }
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+        .release-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .release-card.visible { opacity: 1; transform: translateY(0); }
+        .release-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+        .release-card-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        .release-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .release-card:hover .release-card-image img { transform: scale(1.08); }
+        .release-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .release-card:hover .release-card-overlay { opacity: 1; }
+        .release-card-overlay .view-btn {
+            padding: 12px 24px;
             background: #D4AF37;
             color: #000;
             text-decoration: none;
             font-weight: 600;
+            font-size: 14px;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn:hover {
+        .release-card:hover .release-card-overlay .view-btn {
+            transform: translateY(0);
+        }
+        .release-card-overlay .view-btn:hover {
             background: #F4D03F;
             transform: translateY(-2px);
         }
-        
-        /* Section Styles */
-        section {
-            padding: 100px 48px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .section-title span {
-            color: #D4AF37;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .section-title h2 {
-            font-size: clamp(32px, 5vw, 48px);
-            margin-top: 12px;
-        }
-        
-        /* Featured Artists */
-        .featured-artists {
-            background: linear-gradient(to bottom, #000, #050300);
-        }
-        .artists-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-        .artist-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-        .artist-card:hover {
-            border-color: rgba(212,175,55,0.3);
-            transform: translateY(-8px);
-        }
-        .artist-card img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-        }
-        .artist-card-info {
-            padding: 24px;
-        }
-        .artist-card-info h3 {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        .artist-card-info p {
-            color: rgba(255,255,255,0.5);
-            font-size: 14px;
-        }
-        
-        /* Releases */
-        .releases {
-            background: #000;
-        }
-        .releases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-        }
-        .release-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .release-card:hover {
-            border-color: rgba(212,175,55,0.3);
-        }
-        .release-card img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-        }
         .release-card-info {
-            padding: 16px;
+            padding: 20px;
         }
         .release-card-info h4 {
             font-size: 16px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .release-card-info p {
+            font-size: 14px;
             color: rgba(255,255,255,0.5);
-            font-size: 13px;
         }
         
-        /* CTA Section */
-        .cta {
-            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 50%);
-            text-align: center;
+        /* Responsive for new sections */
+        @media (max-width: 1024px) {
+            .featured-release-card { grid-template-columns: 1fr; gap: 40px; }
+            .featured-release-artwork { max-width: 400px; margin: 0 auto; }
+            .artist-spotlight-card { grid-template-columns: 1fr; gap: 40px; }
+            .artist-spotlight-image { order: -1; max-width: 500px; margin: 0 auto; }
+            .releases-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        .cta h2 {
-            font-size: clamp(28px, 4vw, 42px);
-            margin-bottom: 16px;
+        @media (max-width: 768px) {
+            .featured-release-card { padding: 32px 24px; }
+            .releases-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .featured-release-buttons { flex-direction: column; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
         }
-        .cta p {
-            color: rgba(255,255,255,0.6);
-            max-width: 500px;
-            margin: 0 auto 32px;
+        @media (max-width: 480px) {
+            .releases-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+            .release-card-info { padding: 16px; }
+            .release-card-info h4 { font-size: 14px; }
         }
         
         /* Footer */
-        footer {
-            background: rgba(255,255,255,0.02);
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding: 60px 48px 30px;
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-        .footer-brand h3 {
-            font-size: 24px;
-            color: #D4AF37;
-            margin-bottom: 16px;
-        }
-        .footer-brand p {
-            color: rgba(255,255,255,0.5);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-        .footer-links h4 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-        .footer-links a {
-            display: block;
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 12px;
-            transition: color 0.3s ease;
-        }
+        .site-footer { background: #000; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 60px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; }
+        .footer-column h4 { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-brand h3 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .footer-brand h3 span { color: #D4AF37; }
+        .tagline { color: #D4AF37; font-size: 14px; margin-bottom: 16px; }
+        .footer-description { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+        .social-links { display: flex; gap: 12px; }
+        .social-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); transition: all 0.3s ease; }
+        .social-icon svg { width: 18px; height: 18px; }
+        .social-icon:hover { background: rgba(212, 175, 55, 0.1); border-color: #D4AF37; color: #D4AF37; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; transition: color 0.3s ease; }
         .footer-links a:hover { color: #D4AF37; }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-        }
+        .footer-contact { list-style: none; padding: 0; margin: 0; }
+        .footer-contact li { margin-bottom: 16px; }
+        .contact-label { display: block; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .footer-contact a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s ease; }
+        .footer-contact a:hover { color: #D4AF37; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; }
+        .footer-bottom-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .copyright { color: rgba(255,255,255,0.4); font-size: 13px; margin: 0; }
+        .legal-links { display: flex; gap: 24px; }
+        .legal-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; transition: color 0.3s ease; }
+        .legal-links a:hover { color: #D4AF37; }
         
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px 30px; }
+            .brand-column { grid-column: 1 / -1; }
+        }
         @media (max-width: 768px) {
-            header { padding: 16px 20px; }
             nav { display: none; }
-            section { padding: 60px 20px; }
-            .footer-content { grid-template-columns: 1fr; gap: 32px; }
+            .artist-grid { grid-template-columns: 1fr; }
+            .artist-image { order: -1; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom-container { flex-direction: column; text-align: center; }
+            .legal-links { gap: 16px; }
+        }
+        @media (max-width: 640px) {
+            .instruments { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">BigBash <span>Music</span></div>
+            <div class="loading-indicator">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.6s ease-out, visibility 0.6s ease-out; }
+        #loading-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loading-content { text-align: center; }
+        .loading-logo { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 24px; }
+        .loading-logo span { color: #D4AF37; }
+        .loading-indicator { display: flex; justify-content: center; gap: 8px; }
+        .loading-dot { width: 8px; height: 8px; background: #D4AF37; border-radius: 50%; animation: loadingPulse 1s ease-in-out infinite; }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes loadingPulse { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+    </style>
+
     <header>
-        <a href="/" class="logo">BigBash Music</a>
-        <nav>
-            <a href="/">Home</a>
-            <a href="artist/">Artist</a>
-            <a href="releases/">Releases</a>
-            <a href="epk/">EPK</a>
-            <a href="media/">Media</a>
-            <a href="submissions/">Submissions</a>
-            <a href="partners/">Partners</a>
-            <a href="contact/">Contact</a>
-        </nav>
-        <div class="header-contact">
-            <span>📞</span>
-            <span id="headerPhone">+44 800 274 0074</span>
+        <div class="header-inner">
+            <a href="/" class="logo">BigBash</a>
+            <nav>
+                <a href="/" class="active">Home</a>
+                <a href="artist/index.html">Artist</a>
+                <a href="releases/index.html">Releases</a>
+                <a href="epk/index.html">EPK</a>
+                <a href="media/index.html">Media</a>
+                <a href="submissions/index.html">Submissions</a>
+                <a href="partners/index.html">Partners</a>
+                <a href="contact/index.html">Contact</a>
+            </nav>
+            <a href="tel:+448002740074" class="phone">📞 +44 800 274 0074</a>
         </div>
     </header>
-
+    
     <section class="hero">
         <div class="hero-bg"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-light-rays"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>BigBash <span>Music</span></h1>
-            <p id="heroTagline">Where Legends Rise</p>
-            <p class="desc" id="heroDesc">Independent Afrobeat record label introducing SunGodez.</p>
-            <a href="releases/" class="btn">▶ Listen Now</a>
+            <p>Where Legends Rise</p>
+            <p class="desc">Independent Afrobeat record label introducing SunGodez.</p>
+            <a href="releases/index.html" class="btn">▶ Listen Now</a>
         </div>
     </section>
-
+    
+    <section>
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <span>Our Musical Heritage</span>
+                <h2>The Sound of BigBash Music</h2>
+                <p>BigBash Music celebrates the powerful fusion of African musical heritage and modern global production. Our sound blends traditional instruments with contemporary Afrobeat rhythm.</p>
+            </div>
+            <div class="instruments">
+                <div class="instrument scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="instrument-icon">🥁</div>
+                    <h3>Talking Drum</h3>
+                    <p>Rhythm of African storytelling</p>
+                </div>
+                <div class="instrument scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="instrument-icon">🎵</div>
+                    <h3>Kora</h3>
+                    <p>Strings of tradition and melody</p>
+                </div>
+                <div class="instrument scroll-reveal" style="transition-delay: 0.3s;">
+                    <div class="instrument-icon">🪘</div>
+                    <h3>Shekere</h3>
+                    <p>Percussion that moves the soul</p>
+                </div>
+                <div class="instrument scroll-reveal" style="transition-delay: 0.4s;">
+                    <div class="instrument-icon">🎼</div>
+                    <h3>Balafon</h3>
+                    <p>Ancient wooden xylophone</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Artists Carousel -->
     <section class="featured-artists">
         <div class="container">
-            <div class="section-title">
-                <span>Our Artists</span>
-                <h2>Featured Artists</h2>
+            <div class="section-title scroll-reveal">
+                <span>Featured Artists</span>
+                <h2>Artists on BigBash Music</h2>
             </div>
-            <div class="artists-grid" id="artistsGrid">
-                <!-- Artists loaded dynamically -->
+            <div class="artists-carousel" id="artistsCarousel">
+                <div class="artist-carousel-card scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="artist-carousel-image">
+                        <img src="images/artist-sungodez.jpg" alt="SunGodez" loading="lazy">
+                    </div>
+                    <div class="artist-carousel-info">
+                        <h3>SunGodez</h3>
+                        <p class="tagline">Afrobeat Artist & Songwriter</p>
+                        <a href="artist/index.html" class="btn-small">View Profile →</a>
+                    </div>
+                </div>
+                <div class="artist-carousel-card scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="artist-carousel-image">
+                        <img src="images/artist-portrait-1.jpg" alt="Amina Soul" loading="lazy">
+                    </div>
+                    <div class="artist-carousel-info">
+                        <h3>Amina Soul</h3>
+                        <p class="tagline">Vocalist & Performer</p>
+                        <a href="artist/index.html" class="btn-small">View Profile →</a>
+                    </div>
+                </div>
+                <div class="artist-carousel-card scroll-reveal" style="transition-delay: 0.3s;">
+                    <div class="artist-carousel-image">
+                        <img src="images/artist-portrait-2.jpg" alt="Kofi Beats" loading="lazy">
+                    </div>
+                    <div class="artist-carousel-info">
+                        <h3>Kofi Beats</h3>
+                        <p class="tagline">Producer & DJ</p>
+                        <a href="artist/index.html" class="btn-small">View Profile →</a>
+                    </div>
+                </div>
+                <div class="artist-carousel-card scroll-reveal" style="transition-delay: 0.4s;">
+                    <div class="artist-carousel-image">
+                        <img src="images/artist-portrait-3.jpg" alt="Zara Gold" loading="lazy">
+                    </div>
+                    <div class="artist-carousel-info">
+                        <h3>Zara Gold</h3>
+                        <p class="tagline">Rising Star</p>
+                        <a href="artist/index.html" class="btn-small">View Profile →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <div class="carousel-dot active" data-index="0"></div>
+                <div class="carousel-dot" data-index="1"></div>
+                <div class="carousel-dot" data-index="2"></div>
+                <div class="carousel-dot" data-index="3"></div>
             </div>
         </div>
     </section>
-
-    <section class="releases">
+    
+    <!-- Featured Release Section -->
+    <section class="featured-release">
         <div class="container">
-            <div class="section-title">
-                <span>Latest Music</span>
-                <h2>Releases</h2>
+            <div class="section-title scroll-reveal">
+                <span>Featured Release</span>
+                <h2>Latest from BigBash Music</h2>
             </div>
-            <div class="releases-grid" id="releasesGrid">
-                <!-- Releases loaded dynamically -->
+            <div class="featured-release-card scroll-reveal">
+                <div class="featured-release-artwork">
+                    <img src="images/album-reborn.jpg" alt="Reborn Album Cover" loading="lazy">
+                </div>
+                <div class="featured-release-content">
+                    <h3>New Album</h3>
+                    <h2>Reborn</h2>
+                    <p class="artist-name">SunGodez</p>
+                    <p class="description">A powerful Afrobeat journey of transformation and renewal. "Reborn" showcases SunGodez's evolution as an artist, blending traditional African rhythms with contemporary global sounds.</p>
+                    <div class="featured-release-buttons">
+                        <a href="releases/index.html" class="btn-primary">▶ Listen Now</a>
+                        <a href="releases/index.html" class="btn-secondary">View Release</a>
+                    </div>
+                    <div class="platform-links">
+                        <a href="#" class="platform-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                            Spotify
+                        </a>
+                        <a href="#" class="platform-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.206.303-1.197.32-2.16.932-2.91 1.932-.556.738-.91 1.532-1.05 2.43-.03.175-.046.353-.067.53v13.99c.03.174.05.35.066.526.14.89.49 1.68 1.04 2.41.75.99 1.71 1.6 2.91 1.92.72.18 1.46.26 2.21.3.15.01.3.02.45.03h13.97c.04-.01.08-.01.12-.02.54-.04 1.08-.1 1.61-.2.57-.12 1.1-.32 1.58-.61.85-.53 1.49-1.24 1.91-2.14.27-.59.4-1.21.45-1.85.01-.13.02-.26.02-.4V6.124zm-6.63 9.614l-4.835 2.77c-.344.197-.773.197-1.117 0l-4.835-2.77a1.073 1.073 0 01-.543-.935V8.2c0-.39.21-.75.543-.936l4.835-2.77c.344-.197.773-.197 1.117 0l4.835 2.77c.333.185.543.545.543.936v6.603c0 .39-.21.75-.543.935z"/></svg>
+                            Apple Music
+                        </a>
+                        <a href="#" class="platform-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            YouTube
+                        </a>
+                        <a href="#" class="platform-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.175 12.225c-.051 0-.094.046-.101.097l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.27-2.154c-.009-.057-.05-.097-.084-.097zm-.899.828c-.06 0-.091.037-.104.094L0 14.479l.165 1.308c.014.057.045.094.09.094s.089-.037.099-.094l.195-1.308-.21-1.332c-.01-.057-.045-.094-.063-.094zm1.83-1.229c-.061 0-.12.045-.12.104l-.21 2.563.225 2.458c0 .06.045.104.106.104.061 0 .12-.045.12-.104l.24-2.474-.24-2.547c0-.06-.045-.104-.12-.104zm.945-.089c-.075 0-.135.06-.15.135l-.193 2.64.21 2.544c.016.077.075.138.149.138.075 0 .135-.061.15-.138l.24-2.544-.24-2.64c-.015-.075-.06-.135-.166-.135zm.93-.069c-.09 0-.149.075-.165.165l-.18 2.7.195 2.52c.016.09.075.165.165.165.089 0 .165-.075.165-.165l.21-2.52-.21-2.7c0-.09-.076-.165-.18-.165zm.915-.061c-.105 0-.18.09-.195.195l-.165 2.76.18 2.505c.016.105.09.195.195.195.104 0 .195-.09.21-.195l.195-2.505-.21-2.76c-.015-.105-.09-.195-.21-.195zm.93-.015c-.12 0-.21.105-.225.225l-.15 2.79.165 2.49c.015.12.105.225.225.225.119 0 .225-.105.225-.225l.18-2.49-.195-2.79c-.015-.12-.105-.225-.225-.225zm.93-.015c-.135 0-.24.12-.255.255l-.135 2.805.15 2.475c.015.135.12.255.255.255.135 0 .255-.12.255-.255l.165-2.475-.18-2.805c-.015-.135-.12-.255-.255-.255zm.945-.015c-.149 0-.27.135-.27.285l-.12 2.805.135 2.46c.015.15.135.285.285.285.149 0 .285-.135.285-.285l.15-2.46-.165-2.805c0-.15-.135-.285-.285-.285zm.945-.015c-.165 0-.3.15-.315.315l-.105 2.79.12 2.445c.015.165.15.315.315.315.165 0 .315-.15.315-.315l.135-2.445-.15-2.79c-.015-.165-.15-.315-.315-.315zm.96 0c-.18 0-.33.165-.345.345l-.09 2.775.105 2.43c.015.18.165.345.345.345.18 0 .345-.165.345-.345l.12-2.43-.135-2.775c-.015-.18-.165-.345-.345-.345zm.945-.015c-.195 0-.36.18-.375.375l-.075 2.76.09 2.415c.015.195.18.375.375.375.195 0 .375-.18.39-.375l.105-2.415-.12-2.76c-.015-.195-.18-.375-.39-.375zm.945-.015c-.21 0-.39.195-.405.405l-.06 2.745.075 2.4c.015.21.195.405.405.405.225 0 .405-.195.42-.405l.09-2.4-.105-2.745c-.015-.21-.195-.405-.42-.405zm.93-.03c-.24 0-.435.21-.45.45l-.045 2.715.06 2.385c.015.24.21.45.45.45.24 0 .45-.21.465-.45l.075-2.385-.09-2.715c-.015-.24-.21-.45-.465-.45zm.945-.045c-.27 0-.48.24-.495.51l-.03 2.67.045 2.37c.015.27.24.51.51.51.27 0 .51-.24.525-.51l.06-2.37-.075-2.67c-.015-.27-.24-.51-.54-.51zm.93-.06c-.3 0-.54.27-.555.57l-.015 2.61.03 2.34c.015.3.27.57.57.57.3 0 .57-.27.585-.57l.045-2.34-.06-2.61c-.015-.3-.27-.57-.585-.57zm.945-.09c-.345 0-.615.315-.63.66l.015 2.535.03 2.31c.015.345.3.66.645.66.345 0 .645-.315.66-.66l.03-2.31-.045-2.535c-.015-.345-.315-.66-.69-.66zm.93-.12c-.405 0-.735.375-.75.78v2.43c.015.405.345.78.765.78.405 0 .75-.375.765-.78v-2.43c-.015-.405-.36-.78-.78-.78z"/></svg>
+                            SoundCloud
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-
+    
+    <!-- Artist Spotlight Section -->
+    <section class="artist-spotlight">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <span>Artist Spotlight</span>
+                <h2>Featured Artist</h2>
+            </div>
+            <div class="artist-spotlight-card scroll-reveal">
+                <div class="artist-spotlight-image">
+                    <img src="images/artist-portrait-1.jpg" alt="SunGodez Portrait" loading="lazy">
+                </div>
+                <div class="artist-spotlight-content">
+                    <h3>Artist Spotlight</h3>
+                    <h2>SunGodez</h2>
+                    <p class="role">Afrobeat Artist & Songwriter</p>
+                    <div class="bio">
+                        <p>SunGodez is a rising star in the Afrobeat scene, known for her powerful vocals and inspiring storytelling. Her music blends traditional African rhythms with contemporary global sounds, creating a unique sonic experience.</p>
+                        <p>Signed to BigBash Music, she has quickly become one of the label's most promising talents, captivating audiences with her authentic voice and meaningful lyrics.</p>
+                    </div>
+                    <a href="artist/index.html" class="btn-primary">View Artist Profile →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Latest Releases Grid -->
+    <section class="latest-releases">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <span>Latest Releases</span>
+                <h2>New Music from BigBash</h2>
+            </div>
+            <div class="releases-grid">
+                <div class="release-card scroll-reveal" style="transition-delay: 0.1s;" data-track="reborn">
+                    <div class="release-card-image">
+                        <img src="images/album-reborn.jpg" alt="Reborn Album" loading="lazy">
+                        <div class="release-card-overlay">
+                            <button class="preview-play-btn" aria-label="Play Preview">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="music-preview-player">
+                            <div class="player-controls">
+                                <button class="play-btn" aria-label="Play">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                                <span class="time-display">0:00 / 0:30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-card-info">
+                        <h4>Reborn</h4>
+                        <p>SunGodez</p>
+                    </div>
+                </div>
+                <div class="release-card scroll-reveal" style="transition-delay: 0.2s;" data-track="golden-hour">
+                    <div class="release-card-image">
+                        <img src="images/artist-portrait-2.jpg" alt="Golden Hour Single" loading="lazy">
+                        <div class="release-card-overlay">
+                            <button class="preview-play-btn" aria-label="Play Preview">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="music-preview-player">
+                            <div class="player-controls">
+                                <button class="play-btn" aria-label="Play">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                                <span class="time-display">0:00 / 0:30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-card-info">
+                        <h4>Golden Hour</h4>
+                        <p>SunGodez</p>
+                    </div>
+                </div>
+                <div class="release-card scroll-reveal" style="transition-delay: 0.3s;" data-track="african-queen">
+                    <div class="release-card-image">
+                        <img src="images/artist-portrait-3.jpg" alt="African Queen Single" loading="lazy">
+                        <div class="release-card-overlay">
+                            <button class="preview-play-btn" aria-label="Play Preview">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="music-preview-player">
+                            <div class="player-controls">
+                                <button class="play-btn" aria-label="Play">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                                <span class="time-display">0:00 / 0:30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-card-info">
+                        <h4>African Queen</h4>
+                        <p>SunGodez</p>
+                    </div>
+                </div>
+                <div class="release-card scroll-reveal" style="transition-delay: 0.4s;" data-track="rise-up">
+                    <div class="release-card-image">
+                        <img src="images/artist-sungodez.jpg" alt="Rise Up Single" loading="lazy">
+                        <div class="release-card-overlay">
+                            <button class="preview-play-btn" aria-label="Play Preview">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="music-preview-player">
+                            <div class="player-controls">
+                                <button class="play-btn" aria-label="Play">
+                                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </button>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                                <span class="time-display">0:00 / 0:30</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="release-card-info">
+                        <h4>Rise Up</h4>
+                        <p>SunGodez</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="artist-section">
+        <div class="container">
+            <div class="artist-grid">
+                <div class="artist-content scroll-reveal">
+                    <span>Featured Artist</span>
+                    <h2>Sun<span>Godez</span></h2>
+                    <p>SunGodez is a rising Afrobeat artist signed to BigBash Music. Known for powerful vocals and inspiring storytelling, her music blends Afrobeat rhythms with soulful melodies.</p>
+                    <p>Her debut album "Reborn" showcases her unique sound that fuses traditional African elements with contemporary production.</p>
+                    <a href="artist/index.html">Learn More About SunGodez →</a>
+                </div>
+                <div class="artist-image scroll-reveal">
+                    <img src="images/artist-sungodez.jpg" alt="SunGodez" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <section class="cta">
         <div class="container">
-            <h2>Ready to Join BigBash?</h2>
-            <p>Submit your demo and become part of the next generation of Afrobeat artists.</p>
-            <a href="submissions/" class="btn">Submit Your Demo</a>
+            <h2 class="scroll-reveal">Ready to <span>Experience</span> the Sound?</h2>
+            <p class="scroll-reveal">Stream SunGodez's latest album "Reborn" on all major platforms.</p>
+            <div class="platforms scroll-reveal">
+                <a href="#" class="platform">Spotify</a>
+                <a href="#" class="platform">Apple Music</a>
+                <a href="#" class="platform">YouTube Music</a>
+                <a href="#" class="platform">Amazon Music</a>
+            </div>
         </div>
     </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h3>BigBash Music</h3>
-                <p>Independent Afrobeat record label dedicated to discovering and nurturing the next generation of African music talent.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <a href="/">Home</a>
-                <a href="artist/">Artists</a>
-                <a href="releases/">Releases</a>
-                <a href="contact/">Contact</a>
-            </div>
-            <div class="footer-links">
-                <h4>Resources</h4>
-                <a href="epk/">EPK</a>
-                <a href="media/">Media</a>
-                <a href="submissions/">Submissions</a>
-                <a href="partners/">Partners</a>
-            </div>
-            <div class="footer-links">
-                <h4>Connect</h4>
-                <a href="#" id="footerInstagram">Instagram</a>
-                <a href="#" id="footerTwitter">Twitter</a>
-                <a href="#" id="footerYouTube">YouTube</a>
-                <a href="#" id="footerSpotify">Spotify</a>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column brand-column">
+                    <div class="footer-brand">
+                        <h3>BigBash <span>Music</span></h3>
+                        <p class="tagline">Where Legends Rise</p>
+                    </div>
+                    <p class="footer-description">BigBash Music is an independent music label dedicated to Afrobeat, Afro-fusion, and global African sound. The label focuses on artist development, powerful storytelling, and delivering world-class music productions.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                        <a href="#" class="social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+                        <a href="#" class="social-icon" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg></a>
+                        <a href="#" class="social-icon" aria-label="Spotify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5c3.5-1.5 6.5-1.5 10 0"></path><path d="M8 15c3-1 6-1 9 0"></path><path d="M9 8c2.5-1 5.5-1 8 0"></path></svg></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="artist/index.html">Artist</a></li>
+                        <li><a href="releases/index.html">Releases</a></li>
+                        <li><a href="epk/index.html">EPK</a></li>
+                        <li><a href="media/index.html">Media</a></li>
+                        <li><a href="submissions/index.html">Submissions</a></li>
+                        <li><a href="partners/index.html">Partners</a></li>
+                        <li><a href="contact/index.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Label Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Artist Development</a></li>
+                        <li><a href="#">Music Production</a></li>
+                        <li><a href="#">Release Strategy</a></li>
+                        <li><a href="#">Press & Media</a></li>
+                        <li><a href="#">Distribution Support</a></li>
+                        <li><a href="#">Creative Direction</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><span class="contact-label">Email</span><a href="mailto:admin@bigbash-music.com">admin@bigbash-music.com</a></li>
+                        <li><span class="contact-label">Phone</span><a href="tel:+448002740074">+44 800 274 0074</a></li>
+                        <li><span class="contact-label">Website</span><a href="https://bigbash-music.com">bigbash-music.com</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom" id="footerText">
-            © 2024 BigBash Music. All rights reserved.
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p class="copyright">© BigBash Music. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Licensing</a>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- Page Transition & Scroll Reveal Script -->
     <script>
-        // Load settings
-        function loadSettings() {
-            const settings = JSON.parse(localStorage.getItem('bigbash_settings') || '{}');
-            
-            if (settings.siteTitle) document.title = settings.siteTitle + ' - ' + settings.siteTagline;
-            if (settings.siteTagline) document.getElementById('heroTagline').textContent = settings.siteTagline;
-            if (settings.contactPhone) document.getElementById('headerPhone').textContent = settings.contactPhone;
-            if (settings.footerText) document.getElementById('footerText').textContent = settings.footerText;
-            
-            // Social links
-            if (settings.instagram) document.getElementById('footerInstagram').href = settings.instagram;
-            if (settings.twitter) document.getElementById('footerTwitter').href = settings.twitter;
-            if (settings.youtube) document.getElementById('footerYouTube').href = settings.youtube;
-            if (settings.spotify) document.getElementById('footerSpotify').href = settings.spotify;
+    (function() {
+        // Loading screen
+        function hideLoader() {
+            var loader = document.getElementById('loading-screen');
+            if (loader) {
+                setTimeout(function() {
+                    loader.classList.add('fade-out');
+                    setTimeout(function() {
+                        document.body.classList.add('page-loaded');
+                    }, 100);
+                }, 800);
+            }
         }
-
-        // Load artists
-        function loadArtists() {
-            const artists = JSON.parse(localStorage.getItem('bigbash_artists') || '[]');
-            const publishedArtists = artists.filter(a => a.published);
-            const container = document.getElementById('artistsGrid');
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', hideLoader);
+        } else {
+            hideLoader();
+        }
+        
+        // Internal link navigation
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a');
+            if (!link) return;
+            var href = link.getAttribute('href');
+            if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.endsWith('.pdf')) return;
+            e.preventDefault();
+            document.body.classList.remove('page-loaded');
+            document.body.classList.add('page-exit');
+            setTimeout(function() { window.location.href = href; }, 500);
+        });
+        
+        // Scroll reveal animation
+        var revealElements = document.querySelectorAll('.scroll-reveal');
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(function(el) { revealObserver.observe(el); });
+        
+        // Instrument cards stagger animation
+        var instruments = document.querySelectorAll('.instrument');
+        var instrumentObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    instrumentObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        instruments.forEach(function(el) { instrumentObserver.observe(el); });
+        
+        // Featured release card animation
+        var featuredRelease = document.querySelector('.featured-release-card');
+        if (featuredRelease) {
+            var featuredObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        featuredObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            featuredObserver.observe(featuredRelease);
+        }
+        
+        // Artist spotlight card animation
+        var artistSpotlight = document.querySelector('.artist-spotlight-card');
+        if (artistSpotlight) {
+            var spotlightObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        spotlightObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            spotlightObserver.observe(artistSpotlight);
+        }
+        
+        // Release cards stagger animation
+        var releaseCards = document.querySelectorAll('.release-card');
+        var releaseObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    releaseObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        releaseCards.forEach(function(el) { releaseObserver.observe(el); });
+        
+        // Artist Carousel Navigation
+        var carousel = document.getElementById('artistsCarousel');
+        var carouselDots = document.querySelectorAll('.carousel-dot');
+        if (carousel && carouselDots.length) {
+            carouselDots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var index = parseInt(this.getAttribute('data-index'));
+                    var cardWidth = 344; // card width + gap
+                    carousel.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+                    carouselDots.forEach(function(d) { d.classList.remove('active'); });
+                    this.classList.add('active');
+                });
+            });
             
-            if (publishedArtists.length === 0) {
-                container.innerHTML = `
-                    <div class="artist-card">
-                        <img src="images/artist-sungodez.jpg" alt="SunGodez">
-                        <div class="artist-card-info">
-                            <h3>SunGodez</h3>
-                            <p>Afrobeat Artist</p>
-                        </div>
-                    </div>
-                `;
-                return;
+            // Update active dot on scroll
+            carousel.addEventListener('scroll', function() {
+                var scrollLeft = carousel.scrollLeft;
+                var cardWidth = 344;
+                var activeIndex = Math.round(scrollLeft / cardWidth);
+                carouselDots.forEach(function(d) { d.classList.remove('active'); });
+                if (carouselDots[activeIndex]) {
+                    carouselDots[activeIndex].classList.add('active');
+                }
+            });
+        }
+        
+        // Artist carousel cards animation
+        var carouselCards = document.querySelectorAll('.artist-carousel-card');
+        var carouselObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    carouselObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        carouselCards.forEach(function(el) { carouselObserver.observe(el); });
+        
+        // Music Preview Player Functionality
+        var previewPlayers = document.querySelectorAll('.release-card');
+        previewPlayers.forEach(function(card) {
+            var playBtn = card.querySelector('.play-btn');
+            var previewPlayBtn = card.querySelector('.preview-play-btn');
+            var progressBar = card.querySelector('.progress-bar');
+            var progressFill = card.querySelector('.progress-fill');
+            var timeDisplay = card.querySelector('.time-display');
+            var isPlaying = false;
+            var progress = 0;
+            var animationId = null;
+            
+            function togglePlay() {
+                isPlaying = !isPlaying;
+                if (isPlaying) {
+                    animateProgress();
+                    if (playBtn) playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    if (previewPlayBtn) previewPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    card.classList.add('playing');
+                } else {
+                    cancelAnimationFrame(animationId);
+                    if (playBtn) playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    if (previewPlayBtn) previewPlayBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    card.classList.remove('playing');
+                }
             }
             
-            container.innerHTML = publishedArtists.map(artist => `
-                <div class="artist-card">
-                    <img src="${artist.photo || 'images/artist-sungodez.jpg'}" alt="${artist.name}" onerror="this.src='images/artist-sungodez.jpg'">
-                    <div class="artist-card-info">
-                        <h3>${artist.name}</h3>
-                        <p>${artist.genre || 'Artist'}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Load releases
-        function loadReleases() {
-            const releases = JSON.parse(localStorage.getItem('bigbash_releases') || '[]');
-            const publishedReleases = releases.filter(r => r.published);
-            const container = document.getElementById('releasesGrid');
-            
-            if (publishedReleases.length === 0) {
-                container.innerHTML = `
-                    <div class="release-card">
-                        <img src="images/album-reborn.jpg" alt="Reborn">
-                        <div class="release-card-info">
-                            <h4>Reborn</h4>
-                            <p>SunGodez</p>
-                        </div>
-                    </div>
-                `;
-                return;
+            function animateProgress() {
+                if (!isPlaying) return;
+                progress += 0.5;
+                if (progress > 100) {
+                    progress = 0;
+                    togglePlay();
+                    return;
+                }
+                if (progressFill) progressFill.style.width = progress + '%';
+                if (timeDisplay) {
+                    var currentSeconds = Math.floor((progress / 100) * 30);
+                    timeDisplay.textContent = '0:' + (currentSeconds < 10 ? '0' : '') + currentSeconds + ' / 0:30';
+                }
+                animationId = requestAnimationFrame(animateProgress);
             }
             
-            container.innerHTML = publishedReleases.map(release => `
-                <div class="release-card">
-                    <img src="${release.artwork || 'images/album-reborn.jpg'}" alt="${release.title}" onerror="this.src='images/album-reborn.jpg'">
-                    <div class="release-card-info">
-                        <h4>${release.title}</h4>
-                        <p>${release.artist}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Initialize
-        loadSettings();
-        loadArtists();
-        loadReleases();
+            if (playBtn) {
+                playBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    togglePlay();
+                });
+            }
+            
+            if (previewPlayBtn) {
+                previewPlayBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    togglePlay();
+                });
+            }
+            
+            if (progressBar) {
+                progressBar.addEventListener('click', function(e) {
+                    var rect = this.getBoundingClientRect();
+                    var clickX = e.clientX - rect.left;
+                    progress = (clickX / rect.width) * 100;
+                    if (progressFill) progressFill.style.width = progress + '%';
+                });
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    })();
     </script>
 </body>
 </html>
