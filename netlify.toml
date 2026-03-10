@@ -1,6 +1,6 @@
 
 [build]
-  publish = "website"
+  publish = "."
 
 [build.environment]
   NETLIFY_DISABLE_PLUGIN_NETLIFY_PLUGIN_IMAGE_OPTIM = "true"
