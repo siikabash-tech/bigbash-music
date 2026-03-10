@@ -7,7 +7,7 @@
 
 # Disable all UI-installed plugins
 [[plugins]]
-  package = "@netlify/plugin-ignore"
+  package = 
 
 # Explicitly block problematic plugins
 [build.environment]
